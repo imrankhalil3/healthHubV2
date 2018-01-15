@@ -1,0 +1,79 @@
+﻿body {
+    padding-top: 50px;
+    background-color: #F0F5F7;
+    overflow-x: hidden;
+}
+
+/* Set padding to keep content from hitting the edges */
+
+/* Override the default bootstrap behavior where horizontal description lists 
+   will truncate terms that are too long to fit in the left column 
+*/
+.dl-horizontal dt {
+    white-space: normal;
+}
+
+/* Set width on the form input elements since they're 100% wide by default */
+
+.navbar {
+    background-color: #3BC8E1;
+    border-color: #ff6a00;
+    border-bottom-width: 1px;
+}
+
+.navbar-inverse .navbar-nav > li > a {
+    color: white;
+}
+
+.navbar > .container .navbar-brand {
+    margin-left: -15px;
+    color: white;
+    font-size: 1.6em;
+}
+
+footer {
+    background-color: #3B4349;
+    padding: 10px;
+    margin:0;
+    color:white;
+    font-size:0.9em;
+    bottom:1px;
+}
+
+footer ul li {
+    margin:10px 0;
+}
+
+footer ul li a:active, a:hover, a:visited, a:focus, a:link {
+    color:white;
+}
+
+/*home page*/
+
+.mainBack {
+    background-image: url('images/home-page-bgg.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    height: 400px;
+    color: white;
+}
+
+    .mainBack .txtSearchElement {
+        border-radius: 0;
+        height: 50px;
+        color: #3BC8E1;
+        font-size: 14px;
+    }
+
+.box {
+    background-color: #fff;
+    padding: 20px;
+    border: 1px solid gray;
+}
+
+/* doctors */
+
+.doctor {
+    margin-bottom: 10px;
+}

@@ -1,0 +1,180 @@
+﻿@model SehatClone.ViewModel.HomeIndexVm
+
+@{
+    ViewBag.Title = "Home Page";
+}
+
+<div class="jumbotron text-center mainBack">
+    <h1>Find Right Doctor and Fitness Center</h1>
+    <hr />
+
+    <div class="searchArea container">
+        <div class="row">
+
+            <div class="col-sm-8 col-sm-offset-2">
+
+                <form action="@Url.Action("Search", "Home")" method="post">
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <select name="UserType" class="form-control selectUserType txtSearchElement pull-right">
+                                <option selected value="doctors">Doctor</option>
+                                <option value="centers">Fitness Center</option>
+                                <option value="donors">Donor</option>
+                                <option value="hospitals">Hospital</option>
+                            </select>
+                        </div>
+                        <div class="col-sm-4">
+                            <input id="txtSearchElement" name="SearchTxt" placeholder="Search By Name" type="text" class="txtSearchElement typeahead form-control" />
+                        </div>
+                        <div class="col-sm-4">
+                            <input name="Location" placeholder="Search By Location" type="text" class="txtSearchElement pull-left form-control" />
+                        </div>
+                    </div>
+                    <br />
+
+                    <div class="row">
+                        <div class="col-sm-12 text-center">
+                            <button type="submit" class="btn btn-success btn-lg">
+                                Search
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+<div class="row">
+    <div class="col-sm-12 text-center">
+        <h2>
+            Know your Doctor before you Schedule an Appointment
+        </h2>
+        <p>
+            Research and choose the right doctor and the right hospital to get the right care.
+        </p>
+    </div>
+</div>
+
+<hr />
+
+<div class="row">
+    <div class="col-sm-3 box col-sm-offset-2 text-center">
+        <h3>Right Doctor</h3>
+        <p>
+            Sehat lets you search by medical condition or procedure to find a doctor experienced in your treatment.
+        </p>
+        <button style="background-color:#3BC8E1; border:#3BC8E1;" class="btn btn-primary">
+            Find The Right Doctor
+        </button>
+    </div>
+    <div class="col-sm-3 box col-sm-offset-2 text-center">
+        <h3>Right Care</h3>
+        <p>
+            It’s also important to be an informed patient. Use our 'Ask a Doctor' feature to get medical advice.
+        </p>
+        <button style="background-color:#3BC8E1; border:#3BC8E1;" class="btn btn-primary">
+            Find The Right Care
+        </button>
+    </div>
+</div>
+<br />
+<br />
+<div class="container">
+    <div class="row">
+        <h2 class="text-center">Latest Articles</h2>
+        <hr />
+
+        @if (Model.Articles.Count > 0)
+        {
+            foreach (var article in Model.Articles)
+            {
+        <div class="col-sm-4">
+            <div style="height:200px; overflow:auto;" class="panel panel-success">
+                <div class="panel-heading">
+                    <h5 class="pull-right">
+                        @article.DateTime.ToShortDateString()
+                    </h5>
+                    <h1 style="font-size: 1.7em;" class="panel-title">
+                        @article.Title
+                    </h1>
+                    <h5>@article.Type.Name</h5>
+                </div>
+                <div class="panel-body">
+                    @article.Content
+                </div>
+            </div>
+        </div>
+            }
+        }
+        else
+        {
+        <div class="row">
+            <div class="col-sm-6 col-sm-offset-3">
+                <div class="alert alert-danger">
+                    No Articles To Show
+                </div>
+            </div>
+        </div>
+        }
+
+    </div>
+</div>
+
+@section styles {
+    <link href="~/Content/typeahead.css" rel="stylesheet" />
+}
+
+@section scripts {
+    <script src="~/Scripts/typeahead.bundle.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.11/handlebars.min.js"></script>
+    <script>
+
+        var doctors, centers, donors;
+
+        function capitalizeFirstLetter(string) {
+            return string.charAt(0).toUpperCase() + string.slice(1);
+        }
+
+        function Searh(searchCat) {
+
+            $('#txtSearchElement').typeahead('destroy');
+
+            var data = new Bloodhound({
+                datumTokenizer: Bloodhound.tokenizers.obj.whitespace('Name'),
+                queryTokenizer: Bloodhound.tokenizers.whitespace,
+                remote: {
+                    url: `/api/${searchCat}?query=%QUERY`,
+                    wildcard: '%QUERY'
+                }
+            });
+
+            $('#txtSearchElement').typeahead({
+                highlight: true
+            }, {
+                name: capitalizeFirstLetter(searchCat),
+                display: 'Name',
+                source: data,
+                templates: {
+                    empty: [
+                      '<div style="color:black; font-size:0.7em;">',
+                        `Unable to find any ${searchCat} that match the current query`,
+                      '</div>'
+                    ].join('\n'),
+                    suggestion: Handlebars.compile('<div> <img width="30" src="{{ImageUrl}}" /> <strong>{{Name}}</strong></div>')
+                }
+            });
+        }
+
+        $(document).ready(function () {
+            Searh('doctors');
+
+            $('.selectUserType').on('change', function () {
+                console.log($(this).val());
+                Searh($(this).val());
+            });
+        });
+    </script>
+}

@@ -1,0 +1,49 @@
+﻿@model SehatClone.Models.Hospital
+@{
+    ViewBag.Title = "Hospital Detail";
+}
+
+<h2 class="text-center">Hospital Detail</h2>
+<hr />
+
+<div class="container">
+    <div class="row">
+        <div class="col-sm-8 col-sm-offset-2">
+            <div class="box doctor">
+                <div class="row">
+                    <div class="col-sm-3">
+                        <img src="@Model.ImageUrl" alt="Doctor Image" class="img-circle img-responsive" />
+                    </div>
+                    <div class="col-sm-3">
+                        <h3>
+                            @Model.ContactName
+                        </h3>
+                    </div>
+                    <div class="col-sm-6">
+                        <h5>
+                            <i class="glyphicon glyphicon-map-marker"></i>
+                            @Model.Location
+                        </h5>
+                        <h5>
+                            <i class="glyphicon glyphicon-phone"></i>
+                            @Model.Phone
+                        </h5>
+                        <h5>
+                            <i class="glyphicon glyphicon-envelope"></i>
+                            @Model.Email
+                            years experience
+                        </h5>
+                    </div>
+                </div>
+            </div>
+            <div class="box">
+                <h3>Description</h3>
+                <p>
+                    @Model.Description
+                </p>
+            </div>
+            <br />
+        </div>
+    </div>
+
+</div>
